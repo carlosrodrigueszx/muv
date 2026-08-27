@@ -1,75 +1,138 @@
-# React + TypeScript + Vite
+# MUV
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Plataforma web de transporte comunitário para passageiros e fretes.
 
-Currently, two official plugins are available:
+## Sobre o projeto
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+O MUV tem como objetivo centralizar e modernizar a operação de transporte
+alternativo e comunitário, conectando motoristas e passageiros.
 
-## React Compiler
+A plataforma prevê suporte a serviços como transporte de passageiros e fretes,
+permitindo aos motoristas cadastrar veículos, gerenciar rotas e preços, enquanto
+os passageiros poderão buscar viagens, realizar reservas, contratar fretes e
+avaliar os serviços.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+> As funcionalidades definitivas serão especificadas no Documento de
+> Requisitos do projeto.
 
-## Expanding the ESLint configuration
+## Tecnologias
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Front-end
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- React
+- TypeScript
+- Tailwind CSS
+- Vite
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Back-end
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Java 21
+- Spring Boot
+- Maven
 
+### Banco de dados
+
+- PostgreSQL
+- Neon
+
+## Estrutura do projeto
+
+```text
+muv/
+├── frontend/       # Aplicação React
+├── backend/        # API Spring Boot
+├── database/       # Scripts e estrutura do banco
+├── docs/           # Documentação do projeto
+└── .github/        # Configurações do GitHub
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+## Pré-requisitos
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- Git
+- Node.js 24
+- npm
+- Java 21
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Executando o Front-end
 
+```bash
+cd frontend
+npm install
+npm run dev
 ```
+
+A aplicação estará disponível em:
+
+```text
+http://localhost:5173
+```
+
+## Executando o Back-end
+
+```bash
+cd backend
+./mvnw spring-boot:run
+```
+
+A API utiliza a porta `8080`.
+
+Endpoint de verificação:
+
+```text
+GET /api/health
+```
+
+Resposta esperada:
+
+```json
+{
+  "status": "UP"
+}
+```
+
+## Testes do Back-end
+
+```bash
+cd backend
+./mvnw test
+```
+
+## Git
+
+As funcionalidades devem ser desenvolvidas em branches específicas e
+integradas à `main` por meio de Pull Requests.
+
+### Convenção de branches
+
+```text
+feature/MUV-XXX-descricao
+fix/MUV-XXX-descricao
+docs/MUV-XXX-descricao
+chore/MUV-XXX-descricao
+```
+
+### Convenção de commits
+
+```text
+feat: nova funcionalidade
+fix: correção de problema
+docs: documentação
+chore: configuração/manutenção
+test: testes
+refactor: refatoração
+```
+
+## Documentação
+
+A documentação do projeto será mantida em `docs/`, incluindo:
+
+- requisitos;
+- diagramas;
+- protótipos;
+- atas/reuniões.
+
+Os requisitos serão documentados seguindo a classificação:
+
+- `RF00X` — Requisito Funcional;
+- `RNF00X` — Requisito Não Funcional;
+- `RN00X` — Regra de Negócio.

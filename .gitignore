@@ -24,3 +24,15 @@ dist-ssr
 *.sln
 *.sw?
 
+
+# Variaveis de ambiente
+.env
+.env.*
+!.env.example
+
+# Chaves e certificados privados
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks

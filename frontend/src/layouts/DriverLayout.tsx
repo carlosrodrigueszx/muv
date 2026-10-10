@@ -3,9 +3,9 @@ import Sidebar from "../components/Sidebar";
 
 export default function DriverLayout() {
   return (
-    <div style={{ display: "flex", minHeight: "100vh" }}>
+    <div className="flex min-h-screen bg-secondary">
       <Sidebar />
-      <main style={{ flex: 1, padding: "20px" }}>
+      <main className="p-[24px] flex flex-col gap-[24px]">
         <Outlet /> {/* As páginas filhas entram aqui automaticamente */}
       </main>
     </div>

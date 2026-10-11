@@ -1,8 +1,39 @@
+import { useState } from "react";
+import type { SubmitEvent } from "react";
+
 import { FaClipboardUser } from "react-icons/fa6";
 import { LuUserRoundCheck } from "react-icons/lu";
 import { IoSearch } from "react-icons/io5";
+import DriversListItem from "../../components/DriversListItem.tsx";
+
+// Interface que representa o modelo de dados que vem do Banco de Dados / API
+interface Motorista {
+  id: number;
+  nome: string;
+  cnh: string;
+  telefone: string;
+  foto: string;
+  avaliacao_media: number;
+  email: string;
+}
 
 export default function Drivers() {
+  // Lista de motoristas cadastrados
+  const [motoristas, setMotoristas] = useState<Motorista[]>([]);
+
+  // Estados dos inputs do formulário
+  const [inputNome, setInputNome] = useState("");
+  const [inputEmail, setInputEmail] = useState("");
+  const [inputCPF, setInputCPF] = useState("");
+  const [inputTel, setInputTel] = useState("");
+  const [inputCNH, setInputCNH] = useState("");
+  const [inputCatCNH, setInputCatCNH] = useState("");
+  const [inputValidityCNH, setInputValidyCNH] = useState("");
+
+  const saveDriver = async (event: SubmitEvent<HTMLFormElement>) => {
+    event.preventDefault();
+  };
+
   return (
     <>
       <div className="page-title">
@@ -24,11 +55,7 @@ export default function Drivers() {
           </h2>
         </div>
         <div className="form-inputs">
-          <form
-            action="/"
-            method="post"
-            className="grid grid-cols-4 gap-[16px]"
-          >
+          <form onSubmit={saveDriver} className="grid grid-cols-4 gap-[16px]">
             <div className="form-field col-span-2">
               <label htmlFor="complete-name">Nome Completo</label>
               <input
@@ -91,11 +118,11 @@ export default function Drivers() {
               </select>
             </div>
             <div className="form-field">
-              <label htmlFor="cnh-valid-date">Validade da Habilitação</label>
+              <label htmlFor="cnh-validity">Validade da Habilitação</label>
               <input
                 type="date"
-                id="cnh-valid-date"
-                name="cnh-valid-date"
+                id="cnh-validity"
+                name="cnh-validity"
                 className="bg-secondary-gray p-[8px] rounded-lg w-full"
                 required
               />
@@ -137,6 +164,16 @@ export default function Drivers() {
             <option value="">CNH (0-9)</option>
           </select>
         </form>
+      </div>
+
+      <div id="drivers-list" className="text-center">
+        {motoristas.length === 0 ? (
+          <p>Nenhum motorista cadastrado ainda.</p>
+        ) : (
+          motoristas.map((motorista) => (
+            <DriversListItem catCNH={motorista.cnh} />
+          ))
+        )}
       </div>
     </>
   );

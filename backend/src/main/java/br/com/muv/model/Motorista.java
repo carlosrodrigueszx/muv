@@ -1,0 +1,61 @@
+package br.com.muv.model;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "motorista")
+public class Motorista extends Usuario {
+    private String cnh;
+    private float avaliacao;
+
+    public Motorista() {
+        super();
+    }
+
+    private Motorista(Builder builder) {
+        super(builder);
+        this.cnh = builder.cnh;
+        this.avaliacao = builder.avaliacao;
+    }
+
+    public String getCnh() {
+        return cnh;
+    }
+
+    public float getAvaliacao() {
+        return avaliacao;
+    }
+
+    public static class Builder extends Usuario.Builder<Builder> {
+        private String cnh;
+        private float avaliacao;
+
+        @Override
+        protected Builder self() {
+            return this;
+        }
+
+        public Builder cnh(String cnh) {
+            this.cnh = cnh;
+            return this;
+        }
+
+        public Builder avaliacao(float avaliacao) {
+            this.avaliacao = avaliacao;
+            return this;
+        }
+
+        public Builder copiarDe(Motorista motorista) {
+            super.copiarDe(motorista);
+            this.cnh = motorista.getCnh();
+            this.avaliacao = motorista.getAvaliacao();
+            return this;
+        }
+
+        @Override
+        public Motorista build() {
+            return new Motorista(this);
+        }
+    }
+}

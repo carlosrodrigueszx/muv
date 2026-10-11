@@ -16,7 +16,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="bg-white w-2xs">
+    <aside className="bg-white w-xs">
       <nav className="px-[16px] space-y-2 font-semibold">
         {menuItems.map(({ name, path }) => (
           <NavLink

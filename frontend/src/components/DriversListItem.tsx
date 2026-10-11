@@ -32,10 +32,9 @@ export default function DriversListItem({
         <div className="driver-image rounded-2xl bg-secondary-gray h-20 w-20">
           <img src={driverImage} alt="driver-pfp" />
         </div>
-        <div className="driver-info">
+        <div className="driver-info text-left">
           <h2 className="driver-name text-primary font-bold text-xl">
             {driverName}
-            Carlos Daniel Cavalcante
           </h2>
           <ul>
             <li className="flex items-center gap-2">

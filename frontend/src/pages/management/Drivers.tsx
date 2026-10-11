@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type { ChangeEvent, SubmitEvent } from "react";
 
 import { FaClipboardUser } from "react-icons/fa6";
@@ -28,33 +28,36 @@ export default function Drivers() {
   const [inputCPF, setInputCPF] = useState("");
   const [inputTel, setInputTel] = useState("");
   const [inputCNH, setInputCNH] = useState("");
-  const [selectCatCNH, setSelectCatCNH] = useState("");
+  const [selectCatCNH, setSelectCatCNH] = useState("B");
   const [inputValidityCNH, setInputValidityCNH] = useState("");
 
   // Estado do input de busca e ordenação
   const [inputSearch, setInputSearch] = useState("");
   const [selectOrder, setSelectOrder] = useState("nome-az");
 
-  const filteredDrivers = driversArray
-    .filter((driver) => {
-      const term = inputSearch.toLowerCase();
+  const filteredDrivers = useMemo(() => {
+    return driversArray
+      .filter((driver) => {
+        const term = inputSearch.toLowerCase();
 
-      return (
-        driver.nome.toLowerCase().includes(term) || driver.cnh.startsWith(term)
-      );
-    })
-    .sort((a, b) => {
-      if (selectOrder === "nome-az") {
-        return a.nome.localeCompare(b.nome); // Ordem Alfabética (A-Z)
-      }
-      if (selectOrder === "nome-za") {
-        return b.nome.localeCompare(a.nome); // Ordem Inversa (Z-A)
-      }
-      if (selectOrder === "cnh") {
-        return a.cnh.localeCompare(b.cnh); // Ordena por string numérica da CNH
-      }
-      return 0;
-    });
+        return (
+          driver.nome.toLowerCase().includes(term) ||
+          driver.cnh.startsWith(term)
+        );
+      })
+      .sort((a, b) => {
+        if (selectOrder === "nome-az") {
+          return a.nome.localeCompare(b.nome); // Ordem Alfabética (A-Z)
+        }
+        if (selectOrder === "nome-za") {
+          return b.nome.localeCompare(a.nome); // Ordem Inversa (Z-A)
+        }
+        if (selectOrder === "cnh") {
+          return a.cnh.localeCompare(b.cnh); // Ordena por string numérica da CNH
+        }
+        return 0;
+      });
+  }, [driversArray, inputSearch, selectOrder]);
 
   const saveDriver = async (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -142,7 +145,7 @@ export default function Drivers() {
                 id="complete-name"
                 name="complete-name"
                 maxLength={255}
-                className="bg-secondary-gray p-[8px] rounded-lg w-full"
+                className="bg-secondary-gray p-[8px] rounded-lg w-full border border-solid border-gray-300"
                 value={inputName}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setInputName(e.target.value)
@@ -156,7 +159,7 @@ export default function Drivers() {
                 type="email"
                 id="email"
                 name="email"
-                className="bg-secondary-gray p-[8px] rounded-lg w-full"
+                className="bg-secondary-gray p-[8px] rounded-lg w-full border border-solid border-gray-300"
                 value={inputEmail}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setInputEmail(e.target.value)
@@ -170,7 +173,7 @@ export default function Drivers() {
                 id="cpf"
                 name="cpf"
                 maxLength={11}
-                className="bg-secondary-gray p-[8px] rounded-lg w-full"
+                className="bg-secondary-gray p-[8px] rounded-lg w-full border border-solid border-gray-300"
                 value={inputCPF}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setInputCPF(e.target.value)
@@ -183,7 +186,7 @@ export default function Drivers() {
                 type="tel"
                 id="phone-number"
                 name="phone-number"
-                className="bg-secondary-gray p-[8px] rounded-lg w-full"
+                className="bg-secondary-gray p-[8px] rounded-lg w-full border border-solid border-gray-300"
                 value={inputTel}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setInputTel(e.target.value)
@@ -196,7 +199,7 @@ export default function Drivers() {
                 type="text"
                 id="cnh-value"
                 name="cnh-value"
-                className="bg-secondary-gray p-[8px] rounded-lg w-full"
+                className="bg-secondary-gray p-[8px] rounded-lg w-full border border-solid border-gray-300"
                 value={inputCNH}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setInputCNH(e.target.value)
@@ -209,7 +212,7 @@ export default function Drivers() {
               <select
                 name="chn-type"
                 id="cnh-type"
-                className="bg-secondary-gray p-[8px] rounded-lg w-full"
+                className="bg-secondary-gray p-[8px] rounded-lg w-full border border-solid border-gray-300"
                 value={selectCatCNH}
                 onChange={(e: ChangeEvent<HTMLSelectElement>) =>
                   setSelectCatCNH(e.target.value)
@@ -226,7 +229,7 @@ export default function Drivers() {
                 type="date"
                 id="cnh-validity"
                 name="cnh-validity"
-                className="bg-secondary-gray p-[8px] rounded-lg w-full"
+                className="bg-secondary-gray p-[8px] rounded-lg w-full border border-solid border-gray-300"
                 value={inputValidityCNH}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setInputValidityCNH(e.target.value)
@@ -257,7 +260,7 @@ export default function Drivers() {
               type="search"
               name=""
               id=""
-              className="bg-secondary-gray p-[8px] pl-[32px] rounded-lg w-full"
+              className="bg-secondary-gray p-[8px] pl-[32px] rounded-lg w-full border border-solid border-gray-300"
               placeholder="Buscar por nome, CPF ou CNH"
               value={inputSearch}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -269,7 +272,7 @@ export default function Drivers() {
           <select
             name=""
             id=""
-            className="bg-secondary-gray p-[8px] rounded-lg w-md"
+            className="bg-secondary-gray p-[8px] rounded-lg w-md border border-solid border-gray-300"
             value={selectOrder}
             onChange={(e: ChangeEvent<HTMLSelectElement>) =>
               setSelectOrder(e.target.value)

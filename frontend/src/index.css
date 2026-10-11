@@ -6,4 +6,5 @@
   --color-secondary: #f7f9fe;
   --color-secondary-gray: #ebeef3;
   --color-secondary-dark-gray: #727780;
+  --color-gray-300: oklch(0.869 0.022 252.894);
 }

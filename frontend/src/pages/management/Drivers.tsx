@@ -12,10 +12,10 @@ interface Motorista {
   nome: string;
   cpf: string;
   cnh: string;
-  telefone: string;
-  foto: string;
-  avaliacao_media: number;
   email: string;
+  telefone: string;
+  // foto: string;
+  avaliacao_media: number;
 }
 
 export default function Drivers() {
@@ -66,72 +66,56 @@ export default function Drivers() {
   const saveDriver = async (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    /* Requisição para API
-    setCarregando(true); // Estado de carregando para o botão
-
-    try {
-      // 1. Envia o POST para a API para salvar no banco de dados
-      const resposta = await fetch('https://sua-api.com', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nome: inputNome, cnh: inputCnh }),
-      });
-
-      if (resposta.ok) {
-        // 2. Aguarda o retorno da API com o motorista criado (já com o ID do banco)
-        const novoMotoristaSalvo: Motorista = await resposta.json();
-
-        // 3. Atualiza o estado da lista adicionando o novo motorista
-        setMotoristas([...motoristas, novoMotoristaSalvo]);
-
-        // 4. Limpa os campos do formulário para o próximo cadastro
-        setInputNome('');
-        setInputCnh('');
-      } else {
-        alert('Ocorreu um erro ao salvar o motorista no banco.');
-      }
-    } catch (erro) {
-      console.error('Erro na requisição:', erro);
-      alert('Não foi possível conectar ao servidor.');
-    } finally {
-      setCarregando(false);
-    }
-    */
+    driversArray.forEach((e) => {
+      console.log(e);
+    });
 
     if (inputPassword != inputConfirmPassword) {
-      alert("As senhas inseridas são diferentes!");
+      alert("As senhas inseridas são diferentes.");
       return;
     }
 
-    const newDriver: Motorista = {
-      id: 1,
-      nome: inputName,
-      cpf: inputCPF,
-      cnh: inputCNH,
-      telefone: inputTel,
-      foto: "",
-      avaliacao_media: 0,
-      email: inputEmail,
-    };
-
     const checkDuplicated = driversArray.filter(
-      (e) =>
-        e.nome === newDriver.nome ||
-        e.cnh === newDriver.cnh ||
-        e.cpf === newDriver.cpf,
+      (e) => e.nome === inputName || e.cnh === inputCNH || e.cpf === inputCPF,
     );
 
     if (checkDuplicated.length === 0) {
-      setDriversArray([...driversArray, newDriver]);
-      setInputName("");
-      setInputEmail("");
-      setInputCPF("");
-      setInputCNH("");
-      setInputTel("");
-      setInputPassword("");
-      setInputConfirmPassword("");
+      try {
+        const response = await fetch("http://localhost:8080/api/motoristas", {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify({
+            nome: inputName,
+            cpf: inputCPF,
+            cnh: inputCNH,
+            email: inputEmail,
+            telefone: inputTel,
+            senha: inputPassword,
+          }),
+        });
+
+        if (response.ok) {
+          const newDriver: Motorista = await response.json();
+          setDriversArray([...driversArray, newDriver]);
+          alert("Motorista cadastrado com sucesso.");
+
+          // Limpando campos do formulário
+          setInputName("");
+          setInputEmail("");
+          setInputCPF("");
+          setInputCNH("");
+          setInputTel("");
+          setInputPassword("");
+          setInputConfirmPassword("");
+        } else {
+          alert("Ocorreu um erro ao salvar o motorista no banco.");
+        }
+      } catch (error) {
+        console.log("Erro na requisição:", error);
+        alert("Não foi possível conectar ao servidor.");
+      }
     } else {
-      alert("Motorista já cadastrado!");
+      alert("Informações inválidas.");
     }
   };
 
@@ -225,6 +209,7 @@ export default function Drivers() {
                 type="text"
                 id="cnh-value"
                 name="cnh-value"
+                maxLength={11}
                 className="bg-secondary-gray p-[8px] rounded-lg w-full border border-solid border-gray-300"
                 placeholder="Ex: 01234567890"
                 value={inputCNH}
@@ -258,7 +243,11 @@ export default function Drivers() {
                   className="absolute right-3 bottom-3"
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                  {showPassword ? <LuEye /> : <LuEyeClosed />}
+                  {showPassword ? (
+                    <LuEye className="cursor-pointer" />
+                  ) : (
+                    <LuEyeClosed className="cursor-pointer" />
+                  )}
                 </button>
               )}
             </div>
@@ -286,7 +275,11 @@ export default function Drivers() {
                   className="absolute right-3 bottom-3"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 >
-                  {showConfirmPassword ? <LuEye /> : <LuEyeClosed />}
+                  {showConfirmPassword ? (
+                    <LuEye className="cursor-pointer" />
+                  ) : (
+                    <LuEyeClosed className="cursor-pointer" />
+                  )}
                 </button>
               )}
             </div>
@@ -348,7 +341,7 @@ export default function Drivers() {
               valueCNH={driver.cnh}
               valueCPF={driver.cpf}
               telNumber={driver.telefone}
-              driverImage={driver.foto}
+              driverImage={""}
               driverEmail={driver.email}
             />
           ))

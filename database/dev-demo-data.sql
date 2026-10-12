@@ -136,15 +136,23 @@ BEGIN
     ON CONFLICT (id_rota, id_ponto_origem, id_ponto_destino) DO NOTHING;
 
     -- Partidas para hoje, para que coincidam com a data inicial da tela.
-    INSERT INTO viagem (data_viagem, horario_partida, vagas_restantes, id_rota, id_veiculo, id_motorista)
-    SELECT CURRENT_DATE, TIME '14:30', 4, rota_1_id, veiculo_1_id, motorista_1_id
+    INSERT INTO viagem (data_viagem, horario_partida, horario_chegada, vagas_restantes, id_rota, id_veiculo, id_motorista)
+    SELECT CURRENT_DATE, TIME '14:30', TIME '15:30', 4, rota_1_id, veiculo_1_id, motorista_1_id
     WHERE NOT EXISTS (SELECT 1 FROM viagem WHERE id_rota = rota_1_id AND data_viagem = CURRENT_DATE AND horario_partida = TIME '14:30');
-    INSERT INTO viagem (data_viagem, horario_partida, vagas_restantes, id_rota, id_veiculo, id_motorista)
-    SELECT CURRENT_DATE, TIME '15:15', 7, rota_2_id, veiculo_2_id, motorista_2_id
+    INSERT INTO viagem (data_viagem, horario_partida, horario_chegada, vagas_restantes, id_rota, id_veiculo, id_motorista)
+    SELECT CURRENT_DATE, TIME '15:15', TIME '16:30', 7, rota_2_id, veiculo_2_id, motorista_2_id
     WHERE NOT EXISTS (SELECT 1 FROM viagem WHERE id_rota = rota_2_id AND data_viagem = CURRENT_DATE AND horario_partida = TIME '15:15');
-    INSERT INTO viagem (data_viagem, horario_partida, vagas_restantes, id_rota, id_veiculo, id_motorista)
-    SELECT CURRENT_DATE, TIME '16:00', 9, rota_3_id, veiculo_3_id, motorista_3_id
+    INSERT INTO viagem (data_viagem, horario_partida, horario_chegada, vagas_restantes, id_rota, id_veiculo, id_motorista)
+    SELECT CURRENT_DATE, TIME '16:00', TIME '17:05', 9, rota_3_id, veiculo_3_id, motorista_3_id
     WHERE NOT EXISTS (SELECT 1 FROM viagem WHERE id_rota = rota_3_id AND data_viagem = CURRENT_DATE AND horario_partida = TIME '16:00');
+
+    -- Também atualiza partidas de demonstração já inseridas antes da coluna existir.
+    UPDATE viagem SET horario_chegada = TIME '15:30'
+    WHERE id_rota = rota_1_id AND data_viagem = CURRENT_DATE AND horario_partida = TIME '14:30';
+    UPDATE viagem SET horario_chegada = TIME '16:30'
+    WHERE id_rota = rota_2_id AND data_viagem = CURRENT_DATE AND horario_partida = TIME '15:15';
+    UPDATE viagem SET horario_chegada = TIME '17:05'
+    WHERE id_rota = rota_3_id AND data_viagem = CURRENT_DATE AND horario_partida = TIME '16:00';
 END;
 $$;
 

@@ -20,7 +20,7 @@ public class ViagemConsultaRepository {
     public List<ViagemConsultaDTO> pesquisar(String origem, String destino, Date data,
                                                boolean arCondicionado, boolean wifi) {
         String sql = """
-            SELECT v.id, v.data_viagem, v.horario_partida, NULL::time AS chegada,
+            SELECT v.id, v.data_viagem, v.horario_partida, v.horario_chegada AS chegada,
                    pro.nome_ponto AS origem, prd.nome_ponto AS destino,
                    (SELECT string_agg(pv.nome_ponto, ' → ' ORDER BY pv.ordem)
                       FROM ponto_rota pv WHERE pv.id_rota = r.id AND pv.ordem > pro.ordem AND pv.ordem < prd.ordem) AS via,

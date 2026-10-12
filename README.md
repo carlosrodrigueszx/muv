@@ -73,6 +73,12 @@ Rota disponível no estágio atual:
 http://localhost:5173/gestao/motoristas
 ```
 
+Consulta de viagens:
+
+```text
+http://localhost:5173/buscar-viagens
+```
+
 ### Verificações do Front-end
 
 ```bash
@@ -105,6 +111,22 @@ Resposta:
 ```json
 {"status":"UP"}
 ```
+
+### Consulta de viagens
+
+```text
+GET /api/viagens/consulta?origem=Fortaleza&destino=Pacajus&data=2026-10-24&arCondicionado=true&wifi=false
+```
+
+Os parâmetros `origem` e `destino` pesquisam por parte do nome da parada; `data` usa o formato `AAAA-MM-DD` e pode ser omitida. Os filtros de conforto são opcionais e aceitam `true` ou `false`. A migration `V2__viagem_consulta.sql` acrescenta os atributos de Wi-Fi e ar-condicionado ao veículo. A pesquisa retorna as viagens e tarifas cadastradas nas tabelas `Viagem`, `Rota`, `Ponto_Rota` e `Trecho_Rota`.
+
+Para inserir três viagens fictícias no banco local e experimentar a tela, com o PostgreSQL já iniciado e a migration V2 aplicada, execute na raiz do projeto:
+
+```bash
+docker compose exec -T postgres psql -U muv -d muv_dev < database/dev-demo-data.sql
+```
+
+O script pode ser executado novamente sem duplicar esses dados. As partidas são criadas para a data atual; atualize a busca no navegador e use Fortaleza → Pacajus com o filtro de ar-condicionado ligado. Os dados são somente para demonstração.
 
 ### Testes e build do Back-end
 

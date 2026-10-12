@@ -79,6 +79,12 @@ Consulta de viagens:
 http://localhost:5173/buscar-viagens
 ```
 
+Cadastro de viagens pela área da cooperativa (requer ao menos um motorista cadastrado):
+
+```text
+http://localhost:5173/gestao/viagens
+```
+
 ### Verificações do Front-end
 
 ```bash
@@ -120,6 +126,8 @@ GET /api/viagens/consulta?origem=Fortaleza&destino=Pacajus&data=2026-10-24&arCon
 
 Os parâmetros `origem` e `destino` pesquisam por parte do nome da parada; `data` usa o formato `AAAA-MM-DD` e pode ser omitida. Os filtros de conforto são opcionais e aceitam `true` ou `false`. A migration `V2__viagem_consulta.sql` acrescenta os atributos de Wi-Fi e ar-condicionado ao veículo. A migration `V3__horario_chegada_viagem.sql` acrescenta o horário previsto de chegada. Registros antigos permanecem com chegada nula até esse dado ser cadastrado. A pesquisa retorna as viagens e tarifas cadastradas nas tabelas `Viagem`, `Rota`, `Ponto_Rota` e `Trecho_Rota`.
 
+O cadastro é feito por `POST /api/viagens`. A requisição inclui a rota, paradas, horários, tarifa, vagas, dados do veículo e o ID de um motorista existente. A operação grava veículo, rota, paradas, trecho tarifado e viagem em uma transação.
+
 Para inserir três viagens fictícias no banco local e experimentar a tela, com o PostgreSQL já iniciado e as migrations aplicadas, execute na raiz do projeto:
 
 ```bash
@@ -138,9 +146,7 @@ Os relatórios dos testes Maven são gerados em `backend/target/surefire-reports
 
 ## Banco de dados
 
-O PostgreSQL será utilizado como banco de dados relacional, com persistência através do Spring Data JPA e gerenciamento de migrations pelo Flyway.
-
-A integração com o banco de dados ainda está em preparação. A configuração atual do Spring Boot mantém a autoconfiguração de DataSource e Flyway desativada.
+O PostgreSQL é utilizado como banco de dados relacional, com persistência via Spring Data JPA/JDBC e migrations gerenciadas pelo Flyway. Os testes de integração de filtros e cadastro usam o serviço PostgreSQL definido no workflow do GitHub Actions. Localmente, eles só são executados quando `IT_DB_URL`, `IT_DB_USER` e `IT_DB_PASSWORD` estão configurados; os demais testes não dependem do banco.
 
 ## Integração contínua
 

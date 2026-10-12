@@ -5,6 +5,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import br.com.muv.repository.MotoristaRepository;
 import br.com.muv.repository.ViagemConsultaRepository;
+import br.com.muv.service.ViagemCadastroService;
 
 @SpringBootTest
 class MuvBackendApplicationTests {
@@ -13,6 +14,9 @@ class MuvBackendApplicationTests {
 
 	@MockitoBean
 	ViagemConsultaRepository viagemConsultaRepository;
+
+	@MockitoBean
+	ViagemCadastroService viagemCadastroService;
 
 	@Test
 	void contextLoads() {

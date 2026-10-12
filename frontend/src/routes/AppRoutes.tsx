@@ -6,6 +6,7 @@ import DriverLayout from "../layouts/DriverLayout";
 // Páginas Admin
 import Drivers from "../pages/management/Drivers";
 import TripSearch from "../pages/passenger/TripSearch";
+import TripRegister from "../pages/management/TripRegister";
 
 export const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ export const router = createBrowserRouter([
       {
         path: "motoristas", // Corresponde a /gestao/motoristas
         element: <Drivers />,
+      },
+      {
+        path: "viagens",
+        element: <TripRegister />,
       },
     ],
   },

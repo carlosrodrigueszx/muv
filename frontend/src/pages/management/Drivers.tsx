@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { ChangeEvent, SubmitEvent } from "react";
 
 import { FaClipboardUser } from "react-icons/fa6";
@@ -21,6 +21,23 @@ interface Motorista {
 export default function Drivers() {
   // Lista de motoristas cadastrados
   const [driversArray, setDriversArray] = useState<Motorista[]>([]);
+  const [loadingDrivers, setLoadingDrivers] = useState(true);
+  const [driversError, setDriversError] = useState("");
+
+  useEffect(() => {
+    const loadDrivers = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/api/motoristas");
+        if (!response.ok) throw new Error("Não foi possível carregar os motoristas.");
+        setDriversArray(await response.json());
+      } catch {
+        setDriversError("Não foi possível carregar os motoristas do servidor.");
+      } finally {
+        setLoadingDrivers(false);
+      }
+    };
+    void loadDrivers();
+  }, []);
 
   // Estados dos inputs do formulário
   const [inputName, setInputName] = useState("");
@@ -333,6 +350,8 @@ export default function Drivers() {
 
       <div id="drivers-list" className="text-center flex flex-col gap-4">
         {filteredDrivers.length === 0 ? (
+          loadingDrivers ? <p>Carregando motoristas…</p> :
+          driversError ? <p role="alert">{driversError}</p> :
           <p>Nenhum motorista cadastrado ainda.</p>
         ) : (
           filteredDrivers.map((driver) => (

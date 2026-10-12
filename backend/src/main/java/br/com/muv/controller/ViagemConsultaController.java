@@ -1,7 +1,13 @@
 package br.com.muv.controller;
 
 import br.com.muv.model.dto.ViagemConsultaDTO;
+import br.com.muv.model.dto.ViagemCadastroRequestDTO;
+import br.com.muv.model.dto.ViagemCadastroResponseDTO;
+import br.com.muv.service.ViagemCadastroService;
 import br.com.muv.service.ViagemConsultaService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +20,16 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class ViagemConsultaController {
     private final ViagemConsultaService service;
-    public ViagemConsultaController(ViagemConsultaService service) { this.service = service; }
+    private final ViagemCadastroService cadastroService;
+    public ViagemConsultaController(ViagemConsultaService service, ViagemCadastroService cadastroService) {
+        this.service = service;
+        this.cadastroService = cadastroService;
+    }
+
+    @PostMapping
+    public ResponseEntity<ViagemCadastroResponseDTO> cadastrar(@Valid @RequestBody ViagemCadastroRequestDTO request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(cadastroService.cadastrar(request));
+    }
 
     @GetMapping("/consulta")
     public List<ViagemConsultaDTO> pesquisar(

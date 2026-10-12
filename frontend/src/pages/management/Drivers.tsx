@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import type { ChangeEvent, SubmitEvent } from "react";
 
 import { FaClipboardUser } from "react-icons/fa6";
-import { LuUserRoundCheck } from "react-icons/lu";
+import { LuUserRoundCheck, LuEye, LuEyeClosed } from "react-icons/lu";
 import { IoSearch } from "react-icons/io5";
 import DriversListItem from "../../components/DriversListItem.tsx";
 
@@ -26,12 +26,16 @@ export default function Drivers() {
   const [inputName, setInputName] = useState("");
   const [inputEmail, setInputEmail] = useState("");
   const [inputCPF, setInputCPF] = useState("");
-  const [inputTel, setInputTel] = useState("");
   const [inputCNH, setInputCNH] = useState("");
-  const [selectCatCNH, setSelectCatCNH] = useState("B");
-  const [inputValidityCNH, setInputValidityCNH] = useState("");
+  const [inputTel, setInputTel] = useState("");
+  const [inputPassword, setInputPassword] = useState("");
+  const [inputConfirmPassword, setInputConfirmPassword] = useState("");
 
-  // Estado do input de busca e ordenação
+  // Estados para controlar a visibilidade das senhas
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  // Estados dos input de busca e ordenação
   const [inputSearch, setInputSearch] = useState("");
   const [selectOrder, setSelectOrder] = useState("nome-az");
 
@@ -94,6 +98,11 @@ export default function Drivers() {
     }
     */
 
+    if (inputPassword != inputConfirmPassword) {
+      alert("As senhas inseridas são diferentes!");
+      return;
+    }
+
     const newDriver: Motorista = {
       id: 1,
       nome: inputName,
@@ -112,8 +121,18 @@ export default function Drivers() {
         e.cpf === newDriver.cpf,
     );
 
-    if (checkDuplicated.length === 0)
+    if (checkDuplicated.length === 0) {
       setDriversArray([...driversArray, newDriver]);
+      setInputName("");
+      setInputEmail("");
+      setInputCPF("");
+      setInputCNH("");
+      setInputTel("");
+      setInputPassword("");
+      setInputConfirmPassword("");
+    } else {
+      alert("Motorista já cadastrado!");
+    }
   };
 
   return (
@@ -146,6 +165,7 @@ export default function Drivers() {
                 name="complete-name"
                 maxLength={255}
                 className="bg-secondary-gray p-[8px] rounded-lg w-full border border-solid border-gray-300"
+                placeholder="Ex: Francisco Martins Oliveira"
                 value={inputName}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setInputName(e.target.value)
@@ -160,10 +180,12 @@ export default function Drivers() {
                 id="email"
                 name="email"
                 className="bg-secondary-gray p-[8px] rounded-lg w-full border border-solid border-gray-300"
+                placeholder="Ex: motorista1@email.com"
                 value={inputEmail}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setInputEmail(e.target.value)
                 }
+                required
               />
             </div>
             <div className="form-field">
@@ -174,10 +196,12 @@ export default function Drivers() {
                 name="cpf"
                 maxLength={11}
                 className="bg-secondary-gray p-[8px] rounded-lg w-full border border-solid border-gray-300"
+                placeholder="Ex: 123.456.789-01"
                 value={inputCPF}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setInputCPF(e.target.value)
                 }
+                required
               />
             </div>
             <div className="form-field">
@@ -187,10 +211,12 @@ export default function Drivers() {
                 id="phone-number"
                 name="phone-number"
                 className="bg-secondary-gray p-[8px] rounded-lg w-full border border-solid border-gray-300"
+                placeholder="Ex: (88) 99090-7070"
                 value={inputTel}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setInputTel(e.target.value)
                 }
+                required
               />
             </div>
             <div className="form-field">
@@ -200,6 +226,7 @@ export default function Drivers() {
                 id="cnh-value"
                 name="cnh-value"
                 className="bg-secondary-gray p-[8px] rounded-lg w-full border border-solid border-gray-300"
+                placeholder="Ex: 01234567890"
                 value={inputCNH}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setInputCNH(e.target.value)
@@ -207,35 +234,61 @@ export default function Drivers() {
                 required
               />
             </div>
-            <div className="form-field">
-              <label htmlFor="cnh-type">Categoria CNH</label>
-              <select
-                name="chn-type"
-                id="cnh-type"
-                className="bg-secondary-gray p-[8px] rounded-lg w-full border border-solid border-gray-300"
-                value={selectCatCNH}
-                onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-                  setSelectCatCNH(e.target.value)
-                }
-                required
-              >
-                <option value="B">Categoria B</option>
-                <option value="D">Categoria D</option>
-              </select>
-            </div>
-            <div className="form-field">
-              <label htmlFor="cnh-validity">Validade da Habilitação</label>
+            <div className="form-field relative">
+              <label htmlFor="password">Senha de Acesso</label>
               <input
-                type="date"
-                id="cnh-validity"
-                name="cnh-validity"
+                type={showPassword ? "text" : "password"}
+                name="password"
+                id="password"
+                placeholder="Senha de acesso ao sistema do motorista"
                 className="bg-secondary-gray p-[8px] rounded-lg w-full border border-solid border-gray-300"
-                value={inputValidityCNH}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setInputValidityCNH(e.target.value)
-                }
+                value={inputPassword}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  const value = e.target.value;
+                  setInputPassword(value);
+                  if (value === "") {
+                    setShowPassword(false);
+                  }
+                }}
                 required
               />
+              {inputPassword.length > 0 && (
+                <button
+                  type="button"
+                  className="absolute right-3 bottom-3"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <LuEye /> : <LuEyeClosed />}
+                </button>
+              )}
+            </div>
+            <div className="form-field relative">
+              <label htmlFor="password-confirm">Confirmar Senha</label>
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                id="password-confirm"
+                name="password-confirm"
+                placeholder="Confirme a senha de acesso"
+                className="bg-secondary-gray p-[8px] rounded-lg w-full border border-solid border-gray-300"
+                value={inputConfirmPassword}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  const value = e.target.value;
+                  setInputConfirmPassword(value);
+                  if (value === "") {
+                    setShowConfirmPassword(false);
+                  }
+                }}
+                required
+              />
+              {inputConfirmPassword.length > 0 && (
+                <button
+                  type="button"
+                  className="absolute right-3 bottom-3"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                >
+                  {showConfirmPassword ? <LuEye /> : <LuEyeClosed />}
+                </button>
+              )}
             </div>
             <div className="form-field col-span-2 col-start-2 justify-items-center">
               <button
@@ -292,9 +345,8 @@ export default function Drivers() {
           filteredDrivers.map((driver) => (
             <DriversListItem
               driverName={driver.nome}
-              catCNH={"Indefinida"}
               valueCNH={driver.cnh}
-              validityCNH={"Indefinida"}
+              valueCPF={driver.cpf}
               telNumber={driver.telefone}
               driverImage={driver.foto}
               driverEmail={driver.email}

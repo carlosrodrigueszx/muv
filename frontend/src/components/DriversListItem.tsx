@@ -1,17 +1,13 @@
 import { MdOutlineEmail, MdOutlineLocalPhone } from "react-icons/md";
-import {
-  PiCalendarCheckBold,
-  PiClockCounterClockwiseFill,
-} from "react-icons/pi";
+import { PiClockCounterClockwiseFill } from "react-icons/pi";
 import { FaRegAddressCard } from "react-icons/fa6";
 import { LuEye } from "react-icons/lu";
 import { RiPencilLine } from "react-icons/ri";
 
 interface DriversListItemProps {
   driverName: string;
-  catCNH: string;
   valueCNH: string;
-  validityCNH: string;
+  valueCPF: string;
   telNumber: string;
   driverEmail: string;
   driverImage: string;
@@ -19,9 +15,8 @@ interface DriversListItemProps {
 
 export default function DriversListItem({
   driverName,
-  catCNH,
   valueCNH,
-  validityCNH,
+  valueCPF,
   telNumber,
   driverEmail,
   driverImage,
@@ -37,34 +32,24 @@ export default function DriversListItem({
             {driverName}
           </h2>
           <ul>
-            <li className="flex items-center gap-2">
+            <li className="flex items-center gap-1">
               <FaRegAddressCard
                 size={18}
                 className="text-secondary-dark-gray"
               />
-              CNH Cat.{" "}
-              <span className="driver-cnh-type font-semibold">{catCNH} </span>
-              Reg.:{" "}
+              CPF:
+              <span className="driver-cnh-value font-semibold">{valueCPF}</span>
+              CNH:{" "}
               <span className="driver-cnh-value font-semibold">{valueCNH}</span>
             </li>
-            <li className="flex items-center gap-2">
-              <PiCalendarCheckBold
-                size={18}
-                className="text-secondary-dark-gray"
-              />
-              Validade:{" "}
-              <span className="driver-cnh-validity font-semibold">
-                {validityCNH}
-              </span>
-            </li>
-            <li className="flex items-center gap-2">
+            <li className="flex items-center gap-1">
               <MdOutlineLocalPhone
                 size={18}
                 className="text-secondary-dark-gray"
               />
               <span className="driver-tel font-semibold">{telNumber}</span>
             </li>
-            <li className="flex items-center gap-2">
+            <li className="flex items-center gap-1">
               <MdOutlineEmail size={18} className="text-secondary-dark-gray" />
               <span className="driver-email font-semibold">{driverEmail}</span>
             </li>

@@ -8,3 +8,14 @@
   --color-secondary-dark-gray: #727780;
   --color-gray-300: oklch(0.869 0.022 252.894);
 }
+
+/* Remove o ícone de olho nativo nos navegadores baseados em Chromium (Chrome, Edge, etc.) */
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+
+/* Garante a remoção em seletores específicos de password se necessário */
+input[type="password"]::-webkit-credentials-reveal {
+  display: none;
+}

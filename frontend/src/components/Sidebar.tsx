@@ -11,6 +11,7 @@ export default function Sidebar() {
     { name: "Frota de Veículos", path: "veiculos" },
     { name: "Avaliações", path: "avaliacoes" },
     { name: "Motoristas", path: "motoristas" },
+    { name: "Viagens", path: "viagens" },
     { name: "Achados e Perdidos", path: "achados-perdidos" },
     { name: "Relatório de Demanda", path: "relatorio" },
   ];

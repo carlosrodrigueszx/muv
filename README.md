@@ -118,7 +118,7 @@ Os relatórios dos testes Maven são gerados em `backend/target/surefire-reports
 
 O PostgreSQL será utilizado como banco de dados relacional, com persistência através do Spring Data JPA e gerenciamento de migrations pelo Flyway.
 
-A integração com o banco de dados ainda está em preparação. A configuração atual do Spring Boot mantém a autoconfiguração de DataSource e Flyway desativada.
+A integração com PostgreSQL e Flyway está implementada. No perfil dev, a conexão é configurada por variáveis de ambiente.
 
 ## Integração contínua
 
@@ -192,3 +192,22 @@ A documentação do projeto é organizada em `docs/`, contemplando:
 - [GitHub — MUV](https://github.com/carlosrodrigueszx/muv)
 - [Jira — SCRUM](https://projeto-integrado-cc.atlassian.net)
 - [Figma — Protótipo MUV](https://www.figma.com/design/BZfLRVcLOKqP6gbZbNptuF/MUV-Prot%C3%B3tipo)
+
+## Funcionalidades implementadas
+
+- [RF001 — Cadastro e Autenticação de Passageiros](docs/RF001-CADASTRO-AUTENTICACAO.md)
+
+## Estado atual da implementação
+
+O MUV utiliza PostgreSQL, Spring Data JPA e Flyway.
+
+O ambiente de desenvolvimento pode utilizar PostgreSQL local
+com Docker ou PostgreSQL hospedado no Neon.
+
+A RF001, desenvolvida na branch de cadastro e autenticacao
+de passageiros, contempla cadastro, login, logout e
+recuperacao de senha.
+
+As interfaces utilizam a identidade visual do prototipo MUV.
+
+Documentacao: docs/RF001-CADASTRO-AUTENTICACAO.md

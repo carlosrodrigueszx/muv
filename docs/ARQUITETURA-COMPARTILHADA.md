@@ -71,7 +71,7 @@ As alteracoes no esquema devem utilizar
 migrations versionadas do Flyway.
 
 A migration V1 ja foi compartilhada.
-Novas alteracoes devem usar V2, V3 e seguintes.
+A RF001 já utiliza V2__recuperacao_senha.sql. Novas migrações devem usar versões disponíveis, alinhadas com a equipe.
 
 ## Integracao
 
@@ -88,3 +88,28 @@ implementar e testar seu requisito funcional.
 
 Mudancas em entidades ou contratos compartilhados
 devem ser alinhadas entre os integrantes.
+
+## Implementacao da RF001
+
+A branch feature/cadastro-autenticacao-passageiros implementa:
+
+- POST /api/passageiros
+- GET /api/auth/csrf
+- POST /api/auth/login
+- GET /api/auth/me
+- POST /api/auth/logout
+- POST /api/auth/recuperacao/solicitar
+- POST /api/auth/recuperacao/redefinir
+
+A autenticacao utiliza Spring Security, sessao HTTP,
+protecao CSRF e senhas com BCrypt.
+
+A recuperacao de senha utiliza token temporario de uso unico.
+
+## Evolucao do banco
+
+- V1__initial_schema.sql: esquema inicial.
+- V2__recuperacao_senha.sql: recuperacao de senha.
+
+Novas migrations devem possuir versoes nao utilizadas,
+alinhadas entre os integrantes da equipe.

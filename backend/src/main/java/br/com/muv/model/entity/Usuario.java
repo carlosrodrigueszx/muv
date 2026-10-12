@@ -1,4 +1,4 @@
-package br.com.muv.model;
+package br.com.muv.model.entity;
 
 import jakarta.persistence.*;
 
@@ -10,6 +10,7 @@ public abstract class Usuario {
     private String nome;
     private String cpf;
     private String email;
+    private String telefone;
     @Column(name = "senha_hash")
     private String senha;
 
@@ -39,6 +40,10 @@ public abstract class Usuario {
         return email;
     }
 
+    public String getTelefone() {
+        return telefone;
+    }
+
     public String getSenha() {
         return senha;
     }
@@ -48,6 +53,7 @@ public abstract class Usuario {
         private String nome;
         private String cpf;
         private String email;
+        private String telefone;
         private String senha;
 
         // Método abstrato para forçar a classe filha a retornar "this" com o tipo correto
@@ -73,6 +79,11 @@ public abstract class Usuario {
             return self();
         }
 
+        public B telefone(String telefone) {
+            this.telefone = telefone;
+            return self();
+        }
+
         public B senha(String senha) {
             this.senha = senha;
             return self();
@@ -83,6 +94,7 @@ public abstract class Usuario {
             this.nome = usuario.getNome();
             this.cpf = usuario.getCpf();
             this.email = usuario.getEmail();
+            this.telefone = usuario.getTelefone();
             this.senha = usuario.getSenha();
             return self();
         }

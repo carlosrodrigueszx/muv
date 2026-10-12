@@ -1,4 +1,4 @@
-package br.com.muv.model;
+package br.com.muv.model.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -7,7 +7,8 @@ import jakarta.persistence.Table;
 @Table(name = "motorista")
 public class Motorista extends Usuario {
     private String cnh;
-    private float avaliacao;
+    private Double avaliacao;
+//    private Long empresaId; // Cada motorista está associado a uma cooperativa/empresa?
 
     public Motorista() {
         super();
@@ -23,13 +24,13 @@ public class Motorista extends Usuario {
         return cnh;
     }
 
-    public float getAvaliacao() {
+    public Double getAvaliacao() {
         return avaliacao;
     }
 
     public static class Builder extends Usuario.Builder<Builder> {
         private String cnh;
-        private float avaliacao;
+        private Double avaliacao;
 
         @Override
         protected Builder self() {
@@ -41,7 +42,7 @@ public class Motorista extends Usuario {
             return this;
         }
 
-        public Builder avaliacao(float avaliacao) {
+        public Builder avaliacao(Double avaliacao) {
             this.avaliacao = avaliacao;
             return this;
         }

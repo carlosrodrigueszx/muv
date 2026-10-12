@@ -25,6 +25,7 @@ public class MotoristaService {
                 .email(dto.email())
                 .telefone(dto.telefone())
                 .senha(dto.senha())
+                .avaliacaoMedia(0.0)
                 .build();
 
         Motorista motoristaSalvo = motoristaRepository.save(novoMotorista);
@@ -32,9 +33,9 @@ public class MotoristaService {
         return new MotoristaResponseDTO(
                 motoristaSalvo.getId(),
                 motoristaSalvo.getNome(),
-                motoristaSalvo.getEmail(),
                 motoristaSalvo.getCpf(),
                 motoristaSalvo.getCnh(),
+                motoristaSalvo.getEmail(),
                 motoristaSalvo.getTelefone(),
                 motoristaSalvo.getAvaliacaoMedia()
         );

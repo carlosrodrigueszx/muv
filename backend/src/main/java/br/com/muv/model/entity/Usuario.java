@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 public abstract class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String nome;
     @Column(columnDefinition = "bpchar", length = 11)
     private String cpf;
@@ -22,10 +22,11 @@ public abstract class Usuario {
         this.nome = builder.nome;
         this.cpf = builder.cpf;
         this.email = builder.email;
+        this.telefone = builder.telefone;
         this.senha = builder.senha;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

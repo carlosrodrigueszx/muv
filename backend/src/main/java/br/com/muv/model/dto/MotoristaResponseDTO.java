@@ -7,5 +7,5 @@ public record MotoristaResponseDTO(
         String cnh,
         String email,
         String telefone,
-        Double avaliacao
+        Double avaliacaoMedia
 ) {}

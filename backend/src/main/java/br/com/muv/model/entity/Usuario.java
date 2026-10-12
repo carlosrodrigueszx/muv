@@ -8,6 +8,7 @@ public abstract class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String nome;
+    @Column(columnDefinition = "bpchar", length = 11)
     private String cpf;
     private String email;
     private String telefone;

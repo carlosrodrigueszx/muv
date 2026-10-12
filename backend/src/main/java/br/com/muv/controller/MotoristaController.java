@@ -31,10 +31,10 @@ public class MotoristaController {
     @GetMapping
     public ResponseEntity<List<MotoristaResponseDTO>> listarTodos(@RequestParam(required = false) Long empresaId) {
 
-        if (empresaId != null) {
-            List<MotoristaResponseDTO> filtrados = motoristaService.listarPorEmpresa(empresaId);
-            return ResponseEntity.ok(filtrados);
-        }
+//        if (empresaId != null) {
+//            List<MotoristaResponseDTO> filtrados = motoristaService.listarPorEmpresa(empresaId);
+//            return ResponseEntity.ok(filtrados);
+//        }
 
         List<MotoristaResponseDTO> lista = motoristaService.listarTodos();
         return ResponseEntity.ok(lista);

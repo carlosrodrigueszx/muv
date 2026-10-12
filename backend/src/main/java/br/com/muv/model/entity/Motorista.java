@@ -1,13 +1,16 @@
 package br.com.muv.model.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "motorista")
 public class Motorista extends Usuario {
+    @Column(columnDefinition = "bpchar", length = 11)
     private String cnh;
-    private Double avaliacao;
+    @Column(name = "avaliacao_media")
+    private Double avaliacaoMedia;
 //    private Long empresaId; // Cada motorista está associado a uma cooperativa/empresa?
 
     public Motorista() {
@@ -17,20 +20,20 @@ public class Motorista extends Usuario {
     private Motorista(Builder builder) {
         super(builder);
         this.cnh = builder.cnh;
-        this.avaliacao = builder.avaliacao;
+        this.avaliacaoMedia = builder.avaliacaoMedia;
     }
 
     public String getCnh() {
         return cnh;
     }
 
-    public Double getAvaliacao() {
-        return avaliacao;
+    public Double getAvaliacaoMedia() {
+        return avaliacaoMedia;
     }
 
     public static class Builder extends Usuario.Builder<Builder> {
         private String cnh;
-        private Double avaliacao;
+        private Double avaliacaoMedia;
 
         @Override
         protected Builder self() {
@@ -42,15 +45,15 @@ public class Motorista extends Usuario {
             return this;
         }
 
-        public Builder avaliacao(Double avaliacao) {
-            this.avaliacao = avaliacao;
+        public Builder avaliacaoMedia(Double avaliacaoMedia) {
+            this.avaliacaoMedia = avaliacaoMedia;
             return this;
         }
 
         public Builder copiarDe(Motorista motorista) {
             super.copiarDe(motorista);
             this.cnh = motorista.getCnh();
-            this.avaliacao = motorista.getAvaliacao();
+            this.avaliacaoMedia = motorista.getAvaliacaoMedia();
             return this;
         }
 

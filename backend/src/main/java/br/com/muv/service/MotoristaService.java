@@ -36,7 +36,7 @@ public class MotoristaService {
                 motoristaSalvo.getCpf(),
                 motoristaSalvo.getCnh(),
                 motoristaSalvo.getTelefone(),
-                motoristaSalvo.getAvaliacao()
+                motoristaSalvo.getAvaliacaoMedia()
         );
     }
 
@@ -51,23 +51,23 @@ public class MotoristaService {
                 motorista.getCnh(),
                 motorista.getEmail(),
                 motorista.getTelefone(),
-                motorista.getAvaliacao()
+                motorista.getAvaliacaoMedia()
         )).collect(Collectors.toList());
     }
 
     // Lista os motoristas pertencentes a uma empresa
-    public List<MotoristaResponseDTO> listarPorEmpresa(Long empresaId) {
-        List<Motorista> motoristas = motoristaRepository.findByEmpresaId(empresaId);
-
-        return motoristas.stream()
-                .map(motorista -> new MotoristaResponseDTO(
-                        motorista.getId(),
-                        motorista.getNome(),
-                        motorista.getCpf(),
-                        motorista.getCnh(),
-                        motorista.getEmail(),
-                        motorista.getTelefone(),
-                        motorista.getAvaliacao()
-                )).collect(Collectors.toList());
-    }
+//    public List<MotoristaResponseDTO> listarPorEmpresa(Long empresaId) {
+//        List<Motorista> motoristas = motoristaRepository.findByEmpresaId(empresaId);
+//
+//        return motoristas.stream()
+//                .map(motorista -> new MotoristaResponseDTO(
+//                        motorista.getId(),
+//                        motorista.getNome(),
+//                        motorista.getCpf(),
+//                        motorista.getCnh(),
+//                        motorista.getEmail(),
+//                        motorista.getTelefone(),
+//                        motorista.getAvaliacaoMedia()
+//                )).collect(Collectors.toList());
+//    }
 }

@@ -27,7 +27,9 @@ export default function Drivers() {
   useEffect(() => {
     const loadDrivers = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/motoristas");
+        const response = await fetch("/api/motoristas", {
+          credentials: "same-origin",
+        });
         if (!response.ok) throw new Error("Não foi possível carregar os motoristas.");
         setDriversArray(await response.json());
       } catch {
@@ -98,9 +100,20 @@ export default function Drivers() {
 
     if (checkDuplicated.length === 0) {
       try {
-        const response = await fetch("http://localhost:8080/api/motoristas", {
+        const csrfResponse = await fetch("/api/auth/csrf", {
+          credentials: "same-origin",
+        });
+        if (!csrfResponse.ok) {
+          throw new Error("Não foi possível iniciar a sessão segura. Atualize a página e tente novamente.");
+        }
+        const csrf: { headerName: string; token: string } = await csrfResponse.json();
+        const response = await fetch("/api/motoristas", {
           method: "POST",
-          headers: { "Content-type": "application/json" },
+          credentials: "same-origin",
+          headers: {
+            "Content-type": "application/json",
+            [csrf.headerName]: csrf.token,
+          },
           body: JSON.stringify({
             nome: inputName,
             cpf: inputCPF,
@@ -124,12 +137,17 @@ export default function Drivers() {
           setInputTel("");
           setInputPassword("");
           setInputConfirmPassword("");
+        } else if (response.status === 401) {
+          alert("Entre na sua conta em /login antes de cadastrar um motorista.");
+        } else if (response.status === 403) {
+          alert("Sua sessão de segurança expirou. Atualize a página e tente novamente.");
         } else {
-          alert("Ocorreu um erro ao salvar o motorista no banco.");
+          const message = await response.text();
+          alert(message || "Ocorreu um erro ao salvar o motorista no banco.");
         }
       } catch (error) {
         console.log("Erro na requisição:", error);
-        alert("Não foi possível conectar ao servidor.");
+        alert(error instanceof Error ? error.message : "Não foi possível conectar ao servidor.");
       }
     } else {
       alert("Informações inválidas.");

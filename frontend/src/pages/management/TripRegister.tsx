@@ -20,7 +20,7 @@ export default function TripRegister() {
   useEffect(() => {
     const loadDrivers = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/motoristas");
+        const response = await fetch("/api/motoristas", { credentials: "same-origin" });
         if (!response.ok) throw new Error();
         setDrivers(await response.json());
       } catch {
@@ -48,12 +48,18 @@ export default function TripRegister() {
       placaVeiculo: form.placaVeiculo.toUpperCase().replace(/[^A-Z0-9]/g, ""),
     };
     try {
-      const response = await fetch("http://localhost:8080/api/viagens", {
+      const csrfResponse = await fetch("/api/auth/csrf", { credentials: "same-origin" });
+      if (!csrfResponse.ok) throw new Error("Não foi possível iniciar a sessão segura. Atualize a página e tente novamente.");
+      const csrf: { headerName: string; token: string } = await csrfResponse.json();
+      const response = await fetch("/api/viagens", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json", [csrf.headerName]: csrf.token },
         body: JSON.stringify(payload),
       });
       if (!response.ok) {
+        if (response.status === 401) throw new Error("Entre na sua conta em /login antes de cadastrar uma viagem.");
+        if (response.status === 403) throw new Error("Sua sessão de segurança expirou. Atualize a página e tente novamente.");
         const body = await response.json().catch(() => null);
         throw new Error(body?.detail || body?.message || "Não foi possível cadastrar a viagem.");
       }

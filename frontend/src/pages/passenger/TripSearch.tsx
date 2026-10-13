@@ -30,7 +30,7 @@ export default function TripSearch() {
     setError("");
     const query = new URLSearchParams({ origem, destino, data, arCondicionado: String(arCondicionado), wifi: String(wifi) });
     try {
-      const response = await fetch(`http://localhost:8080/api/viagens/consulta?${query}`);
+      const response = await fetch(`/api/viagens/consulta?${query}`);
       if (!response.ok) throw new Error("Não foi possível consultar as viagens.");
       setTrips(await response.json());
     } catch {

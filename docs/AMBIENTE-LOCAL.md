@@ -134,3 +134,21 @@ docker compose stop postgres
 
 Nao utilizar docker compose down -v,
 pois esse comando remove o volume de dados.
+
+## PostgreSQL no Neon
+
+O Back-end pode utilizar o PostgreSQL hospedado no Neon
+por meio das variaveis DB_URL, DB_USER e DB_PASSWORD.
+
+A conexao deve utilizar SSL. As credenciais reais
+nao devem ser registradas no repositorio.
+
+O Docker continua disponivel para desenvolvimento local.
+O Neon hospeda o banco de dados, nao a aplicacao Java.
+
+## Mailpit
+
+O Mailpit e utilizado nos testes de recuperacao de senha.
+Sua interface de desenvolvimento utiliza a porta 8025.
+
+O servico foi executado separadamente do Compose principal.

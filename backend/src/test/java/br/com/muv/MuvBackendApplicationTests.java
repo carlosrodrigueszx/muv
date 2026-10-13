@@ -1,25 +1,16 @@
 package br.com.muv;
 
+import br.com.muv.repository.RecuperacaoSenhaRepository;
+import br.com.muv.repository.MotoristaRepository;
+import br.com.muv.repository.PassageiroRepository;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import br.com.muv.repository.MotoristaRepository;
-import br.com.muv.repository.ViagemConsultaRepository;
-import br.com.muv.service.ViagemCadastroService;
 
 @SpringBootTest
 class MuvBackendApplicationTests {
-	@MockitoBean
-	MotoristaRepository motoristaRepository;
 
-	@MockitoBean
-	ViagemConsultaRepository viagemConsultaRepository;
-
-	@MockitoBean
-	ViagemCadastroService viagemCadastroService;
-
-	@Test
-	void contextLoads() {
-	}
-
+    @Test
+    void contextLoads() {
+    }
 }

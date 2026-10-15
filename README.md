@@ -204,7 +204,7 @@ Cada Pull Request deve indicar a issue correspondente do Jira.
 
 ## Documentação
 
-A documentação do projeto é organizada em `docs/`, contemplando:
+A documentação do projeto está presente na branch `docs/documentos`, contemplando:
 
 - Requisitos
 - Diagramas

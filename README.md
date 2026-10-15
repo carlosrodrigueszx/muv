@@ -73,6 +73,18 @@ Rota disponível no estágio atual:
 http://localhost:5173/gestao/motoristas
 ```
 
+Consulta de viagens:
+
+```text
+http://localhost:5173/buscar-viagens
+```
+
+Cadastro de viagens pela área da cooperativa (requer ao menos um motorista cadastrado):
+
+```text
+http://localhost:5173/gestao/viagens
+```
+
 ### Verificações do Front-end
 
 ```bash
@@ -106,6 +118,24 @@ Resposta:
 {"status":"UP"}
 ```
 
+### Consulta de viagens
+
+```text
+GET /api/viagens/consulta?origem=Fortaleza&destino=Pacajus&data=2026-10-24&arCondicionado=true&wifi=false
+```
+
+Os parâmetros `origem` e `destino` pesquisam por parte do nome da parada; `data` usa o formato `AAAA-MM-DD` e pode ser omitida. Os filtros de conforto são opcionais e aceitam `true` ou `false`. A migration `V2__viagem_consulta.sql` acrescenta os atributos de Wi-Fi e ar-condicionado ao veículo. A migration `V3__horario_chegada_viagem.sql` acrescenta o horário previsto de chegada. Registros antigos permanecem com chegada nula até esse dado ser cadastrado. A pesquisa retorna as viagens e tarifas cadastradas nas tabelas `Viagem`, `Rota`, `Ponto_Rota` e `Trecho_Rota`.
+
+O cadastro é feito por `POST /api/viagens`. A requisição inclui a rota, paradas, horários, tarifa, vagas, dados do veículo e o ID de um motorista existente. A operação grava veículo, rota, paradas, trecho tarifado e viagem em uma transação.
+
+Para inserir três viagens fictícias no banco local e experimentar a tela, com o PostgreSQL já iniciado e as migrations aplicadas, execute na raiz do projeto:
+
+```bash
+docker compose exec -T postgres psql -U muv -d muv_dev < database/dev-demo-data.sql
+```
+
+O script pode ser executado novamente sem duplicar esses dados. As partidas são criadas para a data atual, com chegadas previstas às 15:30, 16:30 e 17:05; atualize a busca no navegador e use Fortaleza → Pacajus com o filtro de ar-condicionado ligado. Os dados são somente para demonstração.
+
 ### Testes e build do Back-end
 
 ```bash
@@ -118,7 +148,7 @@ Os relatórios dos testes Maven são gerados em `backend/target/surefire-reports
 
 O PostgreSQL será utilizado como banco de dados relacional, com persistência através do Spring Data JPA e gerenciamento de migrations pelo Flyway.
 
-A integração com PostgreSQL e Flyway está implementada. No perfil dev, a conexão é configurada por variáveis de ambiente.
+A integração com o banco de dados ainda está em preparação. A configuração atual do Spring Boot mantém a autoconfiguração de DataSource e Flyway desativada.
 
 ## Integração contínua
 

@@ -56,6 +56,24 @@ jobs:
     name: Back-end (Java 21)
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    env:
+      IT_DB_URL: jdbc:postgresql://localhost:5432/muv_test
+      IT_DB_USER: muv
+      IT_DB_PASSWORD: muv
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: muv_test
+          POSTGRES_USER: muv
+          POSTGRES_PASSWORD: muv
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U muv -d muv_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
     defaults:
       run:
         working-directory: backend

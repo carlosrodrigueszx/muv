@@ -12,6 +12,8 @@ public abstract class Usuario {
     private String cpf;
     private String email;
     private String telefone;
+    @Column(length = 255)
+    private String foto;
     @Column(name = "senha_hash")
     private String senha;
 
@@ -23,6 +25,7 @@ public abstract class Usuario {
         this.cpf = builder.cpf;
         this.email = builder.email;
         this.telefone = builder.telefone;
+        this.foto = builder.foto;
         this.senha = builder.senha;
     }
 
@@ -46,6 +49,10 @@ public abstract class Usuario {
         return telefone;
     }
 
+    public String getFoto() {
+        return foto;
+    }
+
     public String getSenha() {
         return senha;
     }
@@ -56,6 +63,7 @@ public abstract class Usuario {
         private String cpf;
         private String email;
         private String telefone;
+        private String foto;
         private String senha;
 
         // Método abstrato para forçar a classe filha a retornar "this" com o tipo correto
@@ -86,6 +94,11 @@ public abstract class Usuario {
             return self();
         }
 
+        public B foto(String foto) {
+            this.foto = foto;
+            return self();
+        }
+
         public B senha(String senha) {
             this.senha = senha;
             return self();
@@ -97,6 +110,7 @@ public abstract class Usuario {
             this.cpf = usuario.getCpf();
             this.email = usuario.getEmail();
             this.telefone = usuario.getTelefone();
+            this.foto = usuario.getFoto();
             this.senha = usuario.getSenha();
             return self();
         }

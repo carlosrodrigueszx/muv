@@ -66,10 +66,6 @@ export default function Drivers() {
   const saveDriver = async (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    driversArray.forEach((e) => {
-      console.log(e);
-    });
-
     if (inputPassword != inputConfirmPassword) {
       alert("As senhas inseridas são diferentes.");
       return;
@@ -81,9 +77,21 @@ export default function Drivers() {
 
     if (checkDuplicated.length === 0) {
       try {
-        const response = await fetch("http://localhost:8080/api/motoristas", {
+        const csrfResponse = await fetch("/api/auth/csrf", {
+          credentials: "same-origin",
+        });
+        if (!csrfResponse.ok) {
+          throw new Error("Não foi possível iniciar a sessão segura. Atualize a página e tente novamente.");
+        }
+        const csrf: { headerName: string; token: string } = await csrfResponse.json();
+
+        const response = await fetch("/api/motoristas", {
           method: "POST",
-          headers: { "Content-type": "application/json" },
+          credentials: "same-origin",
+          headers: {
+            "Content-Type": "application/json",
+            [csrf.headerName]: csrf.token,
+          },
           body: JSON.stringify({
             nome: inputName,
             cpf: inputCPF,
@@ -96,7 +104,7 @@ export default function Drivers() {
 
         if (response.ok) {
           const newDriver: Motorista = await response.json();
-          setDriversArray([...driversArray, newDriver]);
+          setDriversArray((current) => [...current, newDriver]);
           alert("Motorista cadastrado com sucesso.");
 
           // Limpando campos do formulário
@@ -108,11 +116,22 @@ export default function Drivers() {
           setInputPassword("");
           setInputConfirmPassword("");
         } else {
-          alert("Ocorreu um erro ao salvar o motorista no banco.");
+          if (response.status === 401) {
+            throw new Error("Sua sessão expirou. Entre novamente antes de cadastrar o motorista.");
+          }
+          if (response.status === 403) {
+            throw new Error("A sessão de segurança expirou. Atualize a página e tente novamente.");
+          }
+          const body = await response.json().catch(() => null);
+          throw new Error(body?.detail || body?.message || `Não foi possível cadastrar o motorista (HTTP ${response.status}).`);
         }
       } catch (error) {
-        console.log("Erro na requisição:", error);
-        alert("Não foi possível conectar ao servidor.");
+        const message = error instanceof TypeError
+          ? "Não foi possível conectar à API. Confira se o backend está em execução e se a sessão está ativa."
+          : error instanceof Error
+            ? error.message
+            : "Erro inesperado ao cadastrar o motorista.";
+        alert(message);
       }
     } else {
       alert("Informações inválidas.");

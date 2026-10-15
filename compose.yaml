@@ -5,7 +5,7 @@ services:
     environment:
       POSTGRES_DB: muv_dev
       POSTGRES_USER: muv
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Defina POSTGRES_PASSWORD em .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "127.0.0.1:5432:5432"
     volumes:

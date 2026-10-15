@@ -9,6 +9,9 @@ import DriverLayout from "../layouts/DriverLayout";
 
 // Páginas Admin
 import Drivers from "../pages/management/Drivers";
+import Viagens from "../pages/management/Viagens";
+import TripSearch from "../pages/passenger/TripSearch";
+import TripRegister from "../pages/management/TripRegister";
 
 export const router = createBrowserRouter([
   { path: "/redefinir-senha", element: <ResetPassword /> },
@@ -28,6 +31,19 @@ export const router = createBrowserRouter([
         path: "motoristas", // Corresponde a /gestao/motoristas
         element: <Drivers />,
       },
+      {
+        path: "viagens",
+        element: <Viagens />,
+      },
+      {
+        path: "viagens/cadastrar",
+        element: <TripRegister />,
+      },
+      {
+        path: "viagens/:id",
+        element: <Viagens />,
+      },
     ],
   },
+  { path: "/buscar-viagens", element: <TripSearch /> },
 ]);

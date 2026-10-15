@@ -27,7 +27,10 @@ public class SecurityConfig {
                 .requestMatchers(
                     HttpMethod.GET,
                     "/api/health",
-                    "/api/auth/csrf"
+                    "/api/auth/csrf",
+                    "/api/viagens",
+                    "/api/viagens/consulta",
+                    "/api/viagens/**"
                 ).permitAll()
 
                 .requestMatchers(

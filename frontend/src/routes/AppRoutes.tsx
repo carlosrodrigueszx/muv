@@ -10,6 +10,7 @@ import DriverLayout from "../layouts/DriverLayout";
 // Páginas Admin
 import Drivers from "../pages/management/Drivers";
 import TripSearch from "../pages/passenger/TripSearch";
+import TripDetails from "../pages/passenger/TripDetails";
 import TripRegister from "../pages/management/TripRegister";
 
 export const router = createBrowserRouter([
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
   {
     path: "/buscar-viagens",
     element: <TripSearch />,
+  },
+  {
+    path: "/viagens/:id",
+    element: <TripDetails />,
   },
   {
     // COOPERATIVA

@@ -1,6 +1,7 @@
 package br.com.muv.repository;
 
 import br.com.muv.model.dto.ViagemConsultaDTO;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.persistence.Tuple;
@@ -17,6 +18,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -28,7 +30,18 @@ class ViagemConsultaRepositoryTest {
     @Mock EntityManager entityManager;
     @Mock Query query;
     @Mock Tuple row;
+    @Mock ObjectMapper objectMapper;
     @InjectMocks ViagemConsultaRepository repository;
+
+    @Test
+    void buscarDetalhesDeveRetornarVazioQuandoViagemNaoExiste() {
+        when(entityManager.createNativeQuery(anyString(), eq(Tuple.class))).thenReturn(query);
+        when(query.setParameter(anyString(), any())).thenReturn(query);
+        when(query.getResultList()).thenReturn(List.of());
+
+        assertFalse(repository.buscarDetalhes(99L, null, null).isPresent());
+        verify(query).setParameter("viagemId", 99L);
+    }
 
     @Test
     void pesquisarDeveMapearDataEHorariosRetornadosComoTiposJavaTime() {

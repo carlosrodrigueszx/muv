@@ -1,6 +1,7 @@
 package br.com.muv.controller;
 
 import br.com.muv.model.dto.ViagemConsultaDTO;
+import br.com.muv.model.dto.ViagemDetalhesDTO;
 import br.com.muv.model.dto.ViagemCadastroRequestDTO;
 import br.com.muv.model.dto.ViagemCadastroResponseDTO;
 import br.com.muv.service.ViagemCadastroService;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.sql.Date;
@@ -39,5 +41,14 @@ public class ViagemConsultaController {
             @RequestParam(defaultValue = "false") boolean arCondicionado,
             @RequestParam(defaultValue = "false") boolean wifi) {
         return service.pesquisar(origem, destino, data == null ? null : Date.valueOf(data), arCondicionado, wifi);
+    }
+
+    @GetMapping("/{id}")
+    public ViagemDetalhesDTO buscarDetalhes(
+            @PathVariable Long id,
+            @RequestParam(required = false) String origem,
+            @RequestParam(required = false) String destino) {
+        return service.buscarDetalhes(id, origem, destino).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Viagem não encontrada."));
     }
 }

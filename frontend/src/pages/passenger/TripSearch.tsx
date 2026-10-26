@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
+import { Link } from "react-router-dom";
 import { FaBus, FaCalendarDays, FaChair, FaCircleUser, FaLocationDot, FaShieldHalved, FaSliders, FaSnowflake, FaWifi } from "react-icons/fa6";
 import { LuArrowRight, LuBadgeCheck, LuCircleHelp, LuClock3, LuMapPin } from "react-icons/lu";
 import "./TripSearch.css";
@@ -73,7 +74,7 @@ export default function TripSearch() {
             </div>
             <div className="trip-meta"><span><i className="avatar">{trip.motorista.slice(0, 1)}</i>{trip.motorista}</span>{trip.avaliacao != null && <span className="rating">★ {trip.avaliacao.toFixed(1)}</span>}<span className="seats"><FaChair /> {trip.vagas} vagas livres</span>{trip.arCondicionado && <span><FaSnowflake /> Ar Climatizado</span>}{trip.wifi && <span><FaWifi /> Wi-Fi a bordo</span>}</div>
           </div>
-          <div className="trip-card-price"><span>Passagem individual</span><strong>{money(trip.tarifa)}</strong><button type="button" disabled title="Seleção de assento disponível em uma próxima etapa">Selecionar e Escolher Assento <LuArrowRight /></button></div>
+          <div className="trip-card-price"><span>Passagem individual</span><strong>{money(trip.tarifa)}</strong><Link className="trip-details-link" to={`/viagens/${trip.id}?${new URLSearchParams({ origem: trip.origem, destino: trip.destino })}`}>Ver detalhes da viagem <LuArrowRight /></Link></div>
         </article>)}
       </section>
       <aside className="trip-safe"><span className="safe-icon"><FaShieldHalved /></span><div><b>Viagens homologadas e seguras</b><p>Cooperativa vinculada à ARCE. Embarque com QR Code digital no smartphone.</p></div><a href="#duvidas">Dúvidas sobre embarque? <LuCircleHelp /></a></aside>

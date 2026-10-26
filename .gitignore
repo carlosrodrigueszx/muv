@@ -36,3 +36,5 @@ dist-ssr
 *.p12
 *.pfx
 *.jks
+
+docs/

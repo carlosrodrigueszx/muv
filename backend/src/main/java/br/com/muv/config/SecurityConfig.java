@@ -29,7 +29,8 @@ public class SecurityConfig {
                     "/api/health",
                     "/api/auth/csrf",
                     "/api/motoristas",
-                    "/api/viagens/consulta"
+                    "/api/viagens/consulta",
+                    "/api/viagens/*"
                 ).permitAll()
 
                 .requestMatchers(

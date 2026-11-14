@@ -3,7 +3,7 @@ import { LuChevronDown, LuInfo } from "react-icons/lu";
 
 const faqs = [
   {
-    q: "A juntto é para passageiros ou motoristas?",
+    q: "A MUV é para passageiros ou motoristas?",
     a: "Para os dois. Passageiros encontram veículos com motorista para fretar. Motoristas divulgam seu perfil, veículo e serviços para alcançar novos clientes.",
   },
   {
@@ -16,7 +16,7 @@ const faqs = [
   },
   {
     q: "O pagamento é feito pelo aplicativo?",
-    a: "Não. A juntto não realiza pagamentos no app. Confirmar a oferta é aceitar a proposta; o acerto final e os detalhes da viagem são combinados diretamente com o motorista.",
+    a: "Não. A MUV não realiza pagamentos no app. Confirmar a oferta é aceitar a proposta; o acerto final e os detalhes da viagem são combinados diretamente com o motorista.",
   },
   {
     q: "Sou motorista. Como começo?",
